@@ -13,3 +13,11 @@ const productList = new ProductList(
 );
 
 productList.init();
+
+const sortSelect = document.querySelector('#sort-products');
+
+if (sortSelect) {
+  sortSelect.addEventListener('change', (event) => {
+    productList.sortProducts(event.target.value);
+  });
+}
