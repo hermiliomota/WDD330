@@ -1,38 +1,84 @@
-// wrapper for querySelector...returns matching element
+
 export function qs(selector, parent = document) {
   return parent.querySelector(selector);
 }
-// or a more concise version if you are into that sort of thing:
-// export const qs = (selector, parent = document) => parent.querySelector(selector);
 
-// retrieve data from localstorage
+// Retrieve data from localStorage
 export function getLocalStorage(key) {
   return JSON.parse(localStorage.getItem(key));
 }
-// save data to local storage
+
+// Save data to localStorage
 export function setLocalStorage(key, data) {
   localStorage.setItem(key, JSON.stringify(data));
 }
-// set a listener for both touchend and click
+
+// Set a listener for both touchend and click
 export function setClick(selector, callback) {
-  qs(selector).addEventListener("touchend", (event) => {
+  qs(selector).addEventListener('touchend', (event) => {
     event.preventDefault();
     callback();
   });
-  qs(selector).addEventListener("click", callback);
+
+  qs(selector).addEventListener('click', callback);
 }
 
+// Render a list using a template
 export function renderListWithTemplate(
   templateFn,
   parentElement,
   list,
-  position = "afterbegin",
+  position = 'afterbegin',
   clear = false
 ) {
   if (clear) {
-    parentElement.innerHTML = "";
+    parentElement.innerHTML = '';
   }
 
   const htmlStrings = list.map(templateFn);
-  parentElement.insertAdjacentHTML(position, htmlStrings.join(""));
+  parentElement.insertAdjacentHTML(position, htmlStrings.join(''));
+}
+
+// Render a single template
+export function renderWithTemplate(
+  template,
+  parentElement,
+  data,
+  callback
+) {
+  parentElement.innerHTML = template;
+
+  if (callback) {
+    callback(data);
+  }
+}
+
+// Load an external HTML template
+export async function loadTemplate(path) {
+  const response = await fetch(path);
+
+  if (!response.ok) {
+    throw new Error(`Failed to load template: ${path}`);
+  }
+
+  return response.text();
+}
+
+// Load the shared header and footer
+export async function loadHeaderFooter() {
+  const [headerTemplate, footerTemplate] = await Promise.all([
+    loadTemplate('/partials/header.html'),
+    loadTemplate('/partials/footer.html')
+  ]);
+
+  const headerElement = qs('#main-header');
+  const footerElement = qs('#main-footer');
+
+  if (headerElement) {
+    renderWithTemplate(headerTemplate, headerElement);
+  }
+
+  if (footerElement) {
+    renderWithTemplate(footerTemplate, footerElement);
+  }
 }
