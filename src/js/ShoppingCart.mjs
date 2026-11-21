@@ -5,28 +5,43 @@ import {
 } from './utils.mjs';
 
 function cartItemTemplate(item) {
-  return `<li class="cart-card divider">
-    <a href="#" class="cart-card__image">
-      <img
-        src="${item.Image}"
-        alt="${item.Name}"
-      />
-    </a>
+  const image =
+    item.Images?.PrimarySmall ||
+    item.Images?.PrimaryMedium ||
+    item.Image?.replace('../images/', '/images/') ||
+    '';
 
-    <a href="#">
-      <h2 class="card__name">${item.Name}</h2>
-    </a>
+  const color = item.Colors?.[0]?.ColorName || 'Not specified';
 
-    <p class="cart-card__color">
-      ${item.Colors[0].ColorName}
-    </p>
+  const productUrl =
+    `/product_pages/index.html?product=${encodeURIComponent(item.Id)}`;
 
-    <p class="cart-card__quantity">qty: 1</p>
+  return `
+    <li class="cart-card divider">
+      <a href="${productUrl}" class="cart-card__image">
+        <img
+          src="${image}"
+          alt="${item.Name}"
+        />
+      </a>
 
-    <p class="cart-card__price">
-      $${item.FinalPrice.toFixed(2)}
-    </p>
-  </li>`;
+      <a href="${productUrl}">
+        <h2 class="card__name">${item.Name}</h2>
+      </a>
+
+      <p class="cart-card__color">
+        ${color}
+      </p>
+
+      <p class="cart-card__quantity">
+        qty: 1
+      </p>
+
+      <p class="cart-card__price">
+        $${item.FinalPrice.toFixed(2)}
+      </p>
+    </li>
+  `;
 }
 
 export default class ShoppingCart {

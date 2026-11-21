@@ -1,4 +1,5 @@
-﻿<!doctype html>
+﻿
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -9,17 +10,23 @@
 
   <body>
     <header class="divider" id="main-header"></header>
+
     <main class="divider">
       <div class="hero">
         <img
           src="/images/banner-sm.jpg"
-          srcset="images/banner-sm.jpg 500w, images/banner.jpg"
+          srcset="/images/banner-sm.jpg 500w, /images/banner.jpg 1000w"
           alt="image of a high mountain lake"
         />
+
         <div class="logo logo--square">
-          <img src="/images/noun_Tent_2517.svg" alt="tent image for logo" />
+          <img
+            src="/images/noun_Tent_2517.svg"
+            alt="tent image for logo"
+          />
           <div>Sleep<span class="highlight">Outside</span></div>
         </div>
+
         <div class="mission">
           <p>
             Our mission is to provide you with everything you need to sleep
@@ -28,21 +35,38 @@
         </div>
       </div>
 
-      <section class="products">
-        <h2>Top Products</h2>
-        <div class="product-sort">
-        <label for="sort-products">Sort products by:</label>
-        <select id="sort-products">
-        <option value="default">Default Order</option>
-        <option value="price-low">Price: Low to High</option>
-        <option value="price-high">Price: High to Low</option>
-        </select>
+      <section class="categories">
+        <h2>Shop by Category</h2>
+
+        <div class="category-grid">
+          <a href="/product_listing/index.html?category=tents"
+             class="category-card">
+            <img src="/images/noun_Tent_2517.svg" alt="Tents" />
+            <h3>Tents</h3>
+          </a>
+
+          <a href="/product_listing/index.html?category=backpacks"
+             class="category-card">
+            <img src="/images/noun_Backpack_2389275.svg" alt="Backpacks" />
+            <h3>Backpacks</h3>
+          </a>
+
+          <a href="/product_listing/index.html?category=sleeping-bags"
+             class="category-card">
+            <img src="/images/sleeping-bag.svg" alt="Sleeping Bags" />
+            <h3>Sleeping Bags</h3>
+          </a>
+
+          <a href="/product_listing/index.html?category=hammocks"
+             class="category-card">
+            <img src="/images/hammock.svg" alt="Hammocks" />
+            <h3>Hammocks</h3>
+          </a>
         </div>
-        <ul class="product-list"></ul>
       </section>
     </main>
+
     <footer id="main-footer"></footer>
     <script type="module" src="/js/main.js"></script>
   </body>
 </html>
-

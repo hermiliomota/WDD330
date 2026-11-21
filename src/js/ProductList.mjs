@@ -2,19 +2,13 @@
 import { renderListWithTemplate } from './utils.mjs';
 
 function productCardTemplate(product) {
-  const imagePath = product.Image.replace('../images/', '/images/');
-
-  const fallbackImages = {
-    '989CG': '/images/tents/the-north-face-talus-tent-4-person-3-season-in-golden-oak-saffron-yellow~p~985rf_01~320.jpg',
-    '880RT': '/images/tents/marmot-ajax-tent-3-person-3-season-in-pale-pumpkin-terracotta~p~880rr_01~320.jpg'
-  };
-
-  const finalImage = fallbackImages[product.Id] || imagePath;
-
   return `
     <li class="product-card">
       <a href="/product_pages/index.html?product=${encodeURIComponent(product.Id)}">
-        <img src="${finalImage}" alt="${product.Name}" />
+        <img
+          src="${product.Images.PrimaryMedium}"
+          alt="${product.Name}"
+        />
         <h3 class="card__brand">${product.Brand.Name}</h3>
         <h2 class="card__name">${product.NameWithoutBrand}</h2>
         <p class="product-card__price">
@@ -34,8 +28,15 @@ export default class ProductList {
   }
 
   async init() {
-    this.products = await this.dataSource.getData();
-    this.renderList(this.products);
+    this.listElement.innerHTML = '<li>Loading products...</li>';
+
+    try {
+      this.products = await this.dataSource.getData(this.category);
+      this.renderList(this.products);
+    } catch (error) {
+      this.listElement.textContent =
+        `Unable to load products: ${error.message}`;
+    }
   }
 
   sortProducts(order) {

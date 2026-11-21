@@ -82,3 +82,8 @@ export async function loadHeaderFooter() {
     renderWithTemplate(footerTemplate, footerElement);
   }
 }
+// Retrieve a parameter from the current URL
+export function getParam(param) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(param);
+}
